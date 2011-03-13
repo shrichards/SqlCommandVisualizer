@@ -3,16 +3,60 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlCommandVisualizer", "SqlCommandVisualizer\SqlCommandVisualizer.csproj", "{5F190D74-5122-4CA2-8206-04B1970127FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizerLauncher", "VisualizerLauncher\VisualizerLauncher.csproj", "{7653129E-2F96-47E9-BBAC-04DA77F654D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{67793B36-C35A-4611-81B3-2A9A2240A76A}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		SqlCommandVisualizer.vsmdi = SqlCommandVisualizer.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizerTests", "VisualizerTests\VisualizerTests.csproj", "{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SqlCommandVisualizer.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5F190D74-5122-4CA2-8206-04B1970127FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F190D74-5122-4CA2-8206-04B1970127FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F190D74-5122-4CA2-8206-04B1970127FC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5F190D74-5122-4CA2-8206-04B1970127FC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5F190D74-5122-4CA2-8206-04B1970127FC}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{5F190D74-5122-4CA2-8206-04B1970127FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F190D74-5122-4CA2-8206-04B1970127FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F190D74-5122-4CA2-8206-04B1970127FC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5F190D74-5122-4CA2-8206-04B1970127FC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5F190D74-5122-4CA2-8206-04B1970127FC}.Release|x86.ActiveCfg = Release|Any CPU
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Debug|x86.ActiveCfg = Debug|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Debug|x86.Build.0 = Debug|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Release|x86.ActiveCfg = Release|x86
+		{7653129E-2F96-47E9-BBAC-04DA77F654D8}.Release|x86.Build.0 = Release|x86
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BF63DCF-239A-4796-B1EB-2B37F96BF2BB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
