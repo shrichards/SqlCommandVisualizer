@@ -25,6 +25,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using shr.Visualizers.SqlCommandVisualizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data;
 
 namespace VisualizerTests
 {
@@ -97,6 +98,16 @@ namespace VisualizerTests
       SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.Float);
       TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
       Assert.AreEqual("DECLARE @Param1 FLOAT;", TSqlParam1.Declaration);
+    }
+
+    [TestMethod]
+    public void Can_Generate_DECIMAL_18_5_Declaration()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", SqlDbType.Decimal);
+      Param1.Precision = 18;
+      Param1.Scale = 5;
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("DECLARE @Param1 DECIMAL(18,5);", TSqlParam1.Declaration);
     }
 
   }
