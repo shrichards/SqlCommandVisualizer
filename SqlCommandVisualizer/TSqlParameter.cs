@@ -36,7 +36,8 @@ namespace shr.Visualizers.SqlCommandVisualizer
     {
       Dictionary<SqlDbType, Func<SqlParameter, String>> Generators = new Dictionary<SqlDbType, Func<SqlParameter, string>>
       {
-        {SqlDbType.VarChar, VarCharDeclaration}
+        {SqlDbType.VarChar, VarCharDeclaration},
+        {SqlDbType.Decimal, DecimalDeclaration}
       };
     
       _Parameter = param1;
@@ -58,6 +59,14 @@ namespace shr.Visualizers.SqlCommandVisualizer
         Size = "MAX";
       return String.Format("DECLARE {0} VARCHAR({1});", Param.ParameterName, Size);
     }
+    public static String DecimalDeclaration(SqlParameter Param)
+    {
+      String Precision = Param.Precision.ToString();
+      String Scale = Param.Scale.ToString();      
+      
+      return String.Format("DECLARE {0} DECIMAL({1},{2});", Param.ParameterName, Precision, Scale);
+    }
+
     public static String DefaultDeclaration(SqlParameter Param)
     {
 
