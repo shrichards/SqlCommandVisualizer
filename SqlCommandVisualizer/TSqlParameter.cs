@@ -31,6 +31,7 @@ namespace shr.Visualizers.SqlCommandVisualizer
   {
     protected SqlParameter _Parameter = null;
     protected readonly String _Declaration = "";
+    protected readonly String _Assignment = "";
 
     public TSqlParameter(SqlParameter param1)
     {
@@ -39,7 +40,13 @@ namespace shr.Visualizers.SqlCommandVisualizer
         {SqlDbType.VarChar, VarCharDeclaration},
         {SqlDbType.Decimal, DecimalDeclaration}
       };
-    
+
+      Dictionary<SqlDbType, Func<SqlParameter, String>> Assignors = new Dictionary<SqlDbType, Func<SqlParameter, string>>
+      {
+        {SqlDbType.VarChar, TextAssignment},
+        {SqlDbType.Int, NumericAssigment}
+      };
+
       _Parameter = param1;
 
       if (_Parameter == null)
@@ -48,6 +55,14 @@ namespace shr.Visualizers.SqlCommandVisualizer
         _Declaration = Generators[_Parameter.SqlDbType](_Parameter);
       else
         _Declaration = DefaultDeclaration(_Parameter);
+
+      if (_Parameter == null)
+        _Assignment = "";
+      else if (Assignors.ContainsKey(_Parameter.SqlDbType))
+        _Assignment = Assignors[_Parameter.SqlDbType](_Parameter);
+      else
+        _Assignment = "";
+        
     }
 
     public static String VarCharDeclaration(SqlParameter Param)
@@ -66,7 +81,6 @@ namespace shr.Visualizers.SqlCommandVisualizer
       
       return String.Format("DECLARE {0} DECIMAL({1},{2});", Param.ParameterName, Precision, Scale);
     }
-
     public static String DefaultDeclaration(SqlParameter Param)
     {
 
@@ -74,9 +88,22 @@ namespace shr.Visualizers.SqlCommandVisualizer
       return String.Format("DECLARE {0} {1};", Param.ParameterName, TypeName);
     }
 
+    public static String NumericAssigment(SqlParameter Param)
+    {
+      return String.Format("SET {0} = {1};", Param.ParameterName, Param.Value);
+    }
+    public static String TextAssignment(SqlParameter Param)
+    {
+      return String.Format("SET {0} = '{1}';", Param.ParameterName, Param.Value);
+    }
+
     public String Declaration
     {
       get { return _Declaration; }
+    }
+    public String Assignment
+    {
+      get { return _Assignment; }
     }
   }
 }

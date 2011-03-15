@@ -110,5 +110,23 @@ namespace VisualizerTests
       Assert.AreEqual("DECLARE @Param1 DECIMAL(18,5);", TSqlParam1.Declaration);
     }
 
+    [TestMethod]
+    public void Can_Generate_Int_Assignment()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.Int);
+      Param1.Value = 42;
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("SET @Param1 = 42;", TSqlParam1.Assignment);
+    }
+
+    [TestMethod]
+    public void Can_Generate_VarChar_Assignment()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.VarChar);
+      Param1.Value = "Seth is awesome";
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("SET @Param1 = 'Seth is awesome';", TSqlParam1.Assignment);
+    }
+
   }
 }
