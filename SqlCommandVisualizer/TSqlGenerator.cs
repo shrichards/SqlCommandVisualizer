@@ -27,11 +27,40 @@ namespace shr.Visualizers.SqlCommandVisualizer
 
   public class TSqlGenerator
   {
-    SqlCommand m_Command = null;
+    protected SqlCommand m_Command = null;
+    protected List<String> _Declarations = new List<string>();
+    protected List<String> _Assignments = new List<string>();
+    protected String _Translation;
 
     public TSqlGenerator(SqlCommand Cmd)
     {
       m_Command = Cmd;
+
+      List<TSqlParameter> TSqlParams = new List<TSqlParameter>();
+      foreach (SqlParameter param in Cmd.Parameters)
+      {
+        TSqlParameter TSql = new TSqlParameter(param);
+        _Declarations.Add(String.Format("{0}", TSql.Declaration));
+
+        if(!String.IsNullOrEmpty(TSql.Assignment))
+          _Assignments.Add(String.Format("{0}", TSql.Assignment));
+      }
+
+    }
+
+    public List<String> Declarations
+    {
+      get { return _Declarations; }
+    }
+
+    public List<String> Assignments
+    {
+      get { return _Assignments; }
+    }
+
+    public String TextTranslation
+    {
+      get { return _Translation; }
     }
   }
 }
