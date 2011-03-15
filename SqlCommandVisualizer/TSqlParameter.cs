@@ -58,7 +58,7 @@ namespace shr.Visualizers.SqlCommandVisualizer
 
       if (_Parameter == null)
         _Assignment = "";
-      else if (Assignors.ContainsKey(_Parameter.SqlDbType))
+      else if (Assignors.ContainsKey(_Parameter.SqlDbType) && _Parameter.Value != null)
         _Assignment = Assignors[_Parameter.SqlDbType](_Parameter);
       else
         _Assignment = "";

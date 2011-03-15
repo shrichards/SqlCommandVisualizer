@@ -120,6 +120,14 @@ namespace VisualizerTests
     }
 
     [TestMethod]
+    public void Should_Not_Generate_Assignment_For_Int_Without_Value()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.Int);
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("", TSqlParam1.Assignment);
+    }
+
+    [TestMethod]
     public void Can_Generate_VarChar_Assignment()
     {
       SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.VarChar);
