@@ -19,51 +19,53 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.DebuggerVisualizers;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.IO;
-
-
-[assembly: System.Diagnostics.DebuggerVisualizer(
-typeof(shr.Visualizers.SqlCommandVisualizer.SqlCommandVisualizer),
-typeof(shr.Visualizers.SqlCommandVisualizer.SqlCommandObjectSource),
-Target = typeof(System.Data.SqlClient.SqlCommand),
-Description = "SqlCommand Visualizer")]
 
 namespace shr.Visualizers.SqlCommandVisualizer
 {
-  public class SqlCommandVisualizer : DialogDebuggerVisualizer
+  public partial class SqlCommandVisualizerForm : Form
   {
-    protected override void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
+    public SqlCommandVisualizerForm()
     {
-      String TranslatedSqlText = "";
-      using (var ObjReader = new StreamReader(objectProvider.GetData()))
-      {
-        TranslatedSqlText = ObjReader.ReadToEnd();
-      }
-      if(String.IsNullOrEmpty(TranslatedSqlText))
-        TranslatedSqlText = "[Unable to visualizer provided SqlCommand]";
-
-      
-        using (SqlCommandVisualizerForm displayForm = new SqlCommandVisualizerForm())
-        {
-          displayForm.VisualizationText = TranslatedSqlText;
-          windowService.ShowDialog(displayForm);
-        }
-      
-
-      
+      InitializeComponent();
     }
 
-    public static void TestShowVisualizer(object objectToVisualize)
+    private void btnClose_Click(object sender, EventArgs e)
     {
-      VisualizerDevelopmentHost visualizerHost = new VisualizerDevelopmentHost(objectToVisualize, 
-        typeof(SqlCommandVisualizer), 
-        typeof(SqlCommandObjectSource));
-      visualizerHost.ShowVisualizer();
+      this.Close();
+    }
+
+    private void btnCopyToClipboard_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        Clipboard.SetText(VisualizationText);
+        StatusLabel1.ForeColor = Color.Black;
+        StatusLabel1.Text = "Text copied";
+      }
+      catch (Exception)
+      {
+        StatusLabel1.ForeColor = Color.Red;
+        StatusLabel1.Text = "Error copying text to clipboard";
+      }
+      timer1.Start();
+    }
+
+    public String VisualizationText
+    {
+      get
+      {
+        return txtVisualizeText.Text;
+      }
+      set
+      {
+        txtVisualizeText.Text = value;
+      }
     }
   }
 }

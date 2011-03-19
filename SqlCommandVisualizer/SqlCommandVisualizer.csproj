@@ -37,6 +37,7 @@
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,10 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SqlCommandObjectSource.cs" />
     <Compile Include="SqlCommandVisualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlCommandVisualizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlCommandVisualizerForm.Designer.cs">
+      <DependentUpon>SqlCommandVisualizerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TSqlGenerator.cs" />
     <Compile Include="TSqlParameter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlCommandVisualizerForm.resx">
+      <DependentUpon>SqlCommandVisualizerForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
