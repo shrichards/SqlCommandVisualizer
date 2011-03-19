@@ -60,7 +60,13 @@ namespace shr.Visualizers.SqlCommandVisualizer
 
     public String TextTranslation
     {
-      get { return _Translation; }
+      get 
+      {
+        StringBuilder Translation = new StringBuilder();
+        _Declarations.ForEach(decl => Translation.AppendFormat("{0}{1}", decl, Environment.NewLine));
+        _Assignments.ForEach(assg => Translation.AppendFormat("{0}{1}", assg, Environment.NewLine));
+        return Translation.ToString();
+      }
     }
   }
 }

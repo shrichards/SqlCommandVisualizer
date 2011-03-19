@@ -38,12 +38,14 @@ namespace shr.Visualizers.SqlCommandVisualizer
       Dictionary<SqlDbType, Func<SqlParameter, String>> Generators = new Dictionary<SqlDbType, Func<SqlParameter, string>>
       {
         {SqlDbType.VarChar, VarCharDeclaration},
+        {SqlDbType.NVarChar, NVarCharDeclaration},
         {SqlDbType.Decimal, DecimalDeclaration}
       };
 
       Dictionary<SqlDbType, Func<SqlParameter, String>> Assignors = new Dictionary<SqlDbType, Func<SqlParameter, string>>
       {
         {SqlDbType.VarChar, TextAssignment},
+        {SqlDbType.NVarChar, TextAssignment},
         {SqlDbType.Int, NumericAssigment}
       };
 
@@ -73,6 +75,15 @@ namespace shr.Visualizers.SqlCommandVisualizer
       else
         Size = "MAX";
       return String.Format("DECLARE {0} VARCHAR({1});", Param.ParameterName, Size);
+    }
+    public static String NVarCharDeclaration(SqlParameter Param)
+    {
+      String Size;
+      if (Param.Size > 0)
+        Size = Param.Size.ToString();
+      else
+        Size = "MAX";
+      return String.Format("DECLARE {0} NVARCHAR({1});", Param.ParameterName, Size);
     }
     public static String DecimalDeclaration(SqlParameter Param)
     {
