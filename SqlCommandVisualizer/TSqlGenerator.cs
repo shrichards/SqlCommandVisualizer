@@ -33,7 +33,9 @@ namespace shr.Visualizers.SqlCommandVisualizer
       "FROM",
       "WHERE",
       "ORDER",
-      "GROUP"
+      "GROUP",
+      "INNER",
+      "OUTER"
     };
 
     protected SqlCommand m_Command = null;
