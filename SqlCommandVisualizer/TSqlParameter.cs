@@ -60,11 +60,15 @@ namespace shr.Visualizers.SqlCommandVisualizer
 
       if (_Parameter == null)
         _Assignment = "";
-      else if (Assignors.ContainsKey(_Parameter.SqlDbType) && _Parameter.Value != null)
-        _Assignment = Assignors[_Parameter.SqlDbType](_Parameter);
+      else if (_Parameter.Value != null)
+      {
+        if (Assignors.ContainsKey(_Parameter.SqlDbType))
+          _Assignment = Assignors[_Parameter.SqlDbType](_Parameter);
+        else
+          _Assignment = TextAssignment(_Parameter);
+      }
       else
         _Assignment = "";
-        
     }
 
     public static String VarCharDeclaration(SqlParameter Param)
