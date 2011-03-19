@@ -93,6 +93,14 @@ namespace VisualizerTests
     }
 
     [TestMethod]
+    public void Can_Generate_NVARCHAR_200_Declaration()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.NVarChar, 200);
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("DECLARE @Param1 NVARCHAR(200);", TSqlParam1.Declaration);
+    }
+
+    [TestMethod]
     public void Can_Generate_FLOAT_Declaration()
     {
       SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.Float);
@@ -111,13 +119,33 @@ namespace VisualizerTests
     }
 
     [TestMethod]
-    public void Can_Generate_Int_Assignment()
+    public void Can_Generate_INT_Assignment()
     {
       SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.Int);
       Param1.Value = 42;
       TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
       Assert.AreEqual("SET @Param1 = 42;", TSqlParam1.Assignment);
     }
+
+    [TestMethod]
+    public void Can_Generate_VARCHAR_Assignment()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.VarChar);
+      Param1.Value = "Seth is awesome";
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("SET @Param1 = 'Seth is awesome';", TSqlParam1.Assignment);
+    }
+
+
+    [TestMethod]
+    public void Can_Generate_NVARCHAR_Assignment()
+    {
+      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.NVarChar);
+      Param1.Value = "Seth is awesome";
+      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
+      Assert.AreEqual("SET @Param1 = 'Seth is awesome';", TSqlParam1.Assignment);
+    }
+
 
     [TestMethod]
     public void Should_Not_Generate_Assignment_For_Int_Without_Value()
@@ -127,14 +155,6 @@ namespace VisualizerTests
       Assert.AreEqual("", TSqlParam1.Assignment);
     }
 
-    [TestMethod]
-    public void Can_Generate_VarChar_Assignment()
-    {
-      SqlParameter Param1 = new SqlParameter("@Param1", System.Data.SqlDbType.VarChar);
-      Param1.Value = "Seth is awesome";
-      TSqlParameter TSqlParam1 = new TSqlParameter(Param1);
-      Assert.AreEqual("SET @Param1 = 'Seth is awesome';", TSqlParam1.Assignment);
-    }
-
+    
   }
 }

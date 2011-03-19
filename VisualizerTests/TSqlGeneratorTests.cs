@@ -94,14 +94,29 @@ namespace VisualizerTests
     }
 
     [TestMethod]
-    public void Param_Without_Value_Should_Only_Generate_Declaration()
+    public void Should_Only_Generate_Declaration_For_Param_Without_Value()
     {
-      SqlCommand Cmd = new SqlCommand();
-      Cmd.Parameters.Add("@Param", SqlDbType.Int);
-      
-      TSqlGenerator Generator = new TSqlGenerator(Cmd);
-      Assert.AreEqual(1, Generator.Declarations.Count);
-      Assert.AreEqual(0, Generator.Assignments.Count);
+      using (SqlCommand Cmd = new SqlCommand())
+      {
+        Cmd.Parameters.Add("@Param", SqlDbType.Int);
+
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        Assert.AreEqual(1, Generator.Declarations.Count);
+        Assert.AreEqual(0, Generator.Assignments.Count);
+      }
+    }
+
+    [TestMethod]
+    public void Should_Generate_Declaration_And_Assignment_For_Param_Witht_Value()
+    {
+      using (SqlCommand Cmd = new SqlCommand())
+      {
+        Cmd.Parameters.AddWithValue("@Param", "The Parameter");
+
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        Assert.AreEqual(1, Generator.Declarations.Count);
+        Assert.AreEqual(1, Generator.Assignments.Count);
+      }
     }
   }
 }
