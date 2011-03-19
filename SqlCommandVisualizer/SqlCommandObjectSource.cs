@@ -17,53 +17,29 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 ******************************************************************************/
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.DebuggerVisualizers;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
 
-
-[assembly: System.Diagnostics.DebuggerVisualizer(
-typeof(shr.Visualizers.SqlCommandVisualizer.SqlCommandVisualizer),
-typeof(shr.Visualizers.SqlCommandVisualizer.SqlCommandObjectSource),
-Target = typeof(System.Data.SqlClient.SqlCommand),
-Description = "SqlCommand Visualizer")]
-
 namespace shr.Visualizers.SqlCommandVisualizer
 {
-  public class SqlCommandVisualizer : DialogDebuggerVisualizer
+  public class SqlCommandObjectSource : VisualizerObjectSource
   {
-    protected override void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
+    public override void GetData(object target, System.IO.Stream outgoingData)
     {
-      String TranslatedSqlText = "";
-      using (var ObjReader = new StreamReader(objectProvider.GetData()))
+      String VisualizerText = "";
+      SqlCommand Cmd = target as SqlCommand;
+      if (Cmd != null)
       {
-        TranslatedSqlText = ObjReader.ReadToEnd();
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        VisualizerText = Generator.TextTranslation;
       }
-      if(String.IsNullOrEmpty(TranslatedSqlText))
-        TranslatedSqlText = "[Unable to visualizer provided SqlCommand]";
 
-      
-        using (SqlCommandVisualizerForm displayForm = new SqlCommandVisualizerForm())
-        {
-          displayForm.VisualizationText = TranslatedSqlText;
-          windowService.ShowDialog(displayForm);
-        }
-      
-
-      
-    }
-
-    public static void TestShowVisualizer(object objectToVisualize)
-    {
-      VisualizerDevelopmentHost visualizerHost = new VisualizerDevelopmentHost(objectToVisualize, 
-        typeof(SqlCommandVisualizer), 
-        typeof(SqlCommandObjectSource));
-      visualizerHost.ShowVisualizer();
+      var writer = new StreamWriter(outgoingData);
+      writer.Write(VisualizerText);
+      writer.Flush();
     }
   }
 }
