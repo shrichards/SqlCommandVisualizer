@@ -118,5 +118,91 @@ namespace VisualizerTests
         Assert.AreEqual(1, Generator.Assignments.Count);
       }
     }
+
+    [TestMethod]
+    public void Should_Include_Declarations_And_Assignments_In_Translation()
+    {
+      using (SqlCommand Cmd = new SqlCommand())
+      {
+        Cmd.Parameters.AddWithValue("@Param", "The Parameter");
+
+        TSqlParameter TheParameter = new TSqlParameter(Cmd.Parameters[0]);
+
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        String GeneratedTSql = Generator.TextTranslation;
+
+        Assert.IsTrue(GeneratedTSql.Contains(TheParameter.Declaration));
+        Assert.IsTrue(GeneratedTSql.Contains(TheParameter.Assignment));
+      }
+    }
+
+    [TestMethod]
+    public void Should_Output_Declaration_Before_Assignment_In_Translation()
+    {
+      using (SqlCommand Cmd = new SqlCommand())
+      {
+        Cmd.Parameters.AddWithValue("@Param", "The Parameter");
+
+        TSqlParameter TheParameter = new TSqlParameter(Cmd.Parameters[0]);
+
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        String GeneratedTSql = Generator.TextTranslation;
+        
+        int DeclarationIndex = GeneratedTSql.IndexOf(TheParameter.Declaration);
+        int AssignmentIndex = GeneratedTSql.IndexOf(TheParameter.Assignment);
+
+        Assert.IsTrue(DeclarationIndex < AssignmentIndex, "Declaration does not appear before assignment");
+      }
+    }
+    
+    [TestMethod]
+    public void Should_Break_Before_FROM()
+    {
+      using (SqlCommand Cmd = new SqlCommand("SELECT * FROM the_table"))
+      {
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        String GeneratedTSql = Generator.TextTranslation;
+        String MatchText = String.Format("{0}FROM", Environment.NewLine);
+        Assert.IsTrue(GeneratedTSql.Contains(MatchText));
+      }
+    }
+
+    [TestMethod]
+    public void Should_Break_Before_WHERE()
+    {
+      using (SqlCommand Cmd = new SqlCommand("SELECT * FROM the_table WHERE val = 1"))
+      {
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        String GeneratedTSql = Generator.TextTranslation;
+        String MatchText = String.Format("{0}WHERE", Environment.NewLine);
+        Assert.IsTrue(GeneratedTSql.Contains(MatchText));
+      }
+    }
+
+    [TestMethod]
+    public void Should_Break_Before_ORDER()
+    {
+      using (SqlCommand Cmd = new SqlCommand("SELECT * FROM the_table ORDER BY the_col"))
+      {
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        String GeneratedTSql = Generator.TextTranslation;
+        String MatchText = String.Format("{0}ORDER", Environment.NewLine);
+        Assert.IsTrue(GeneratedTSql.Contains(MatchText));
+      }
+    }
+
+    [TestMethod]
+    public void Should_Break_Before_GROUP()
+    {
+      using (SqlCommand Cmd = new SqlCommand("SELECT * FROM the_table GROUP BY the_col"))
+      {
+        TSqlGenerator Generator = new TSqlGenerator(Cmd);
+        String GeneratedTSql = Generator.TextTranslation;
+        String MatchText = String.Format("{0}GROUP", Environment.NewLine);
+        Assert.IsTrue(GeneratedTSql.Contains(MatchText));
+      }
+    }
+
   }
+
 }

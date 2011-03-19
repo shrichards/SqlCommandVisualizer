@@ -22,11 +22,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 namespace shr.Visualizers.SqlCommandVisualizer
 {
 
   public class TSqlGenerator
   {
+    protected static List<String> _BreakBefore = new List<string>()
+    {
+      "FROM",
+      "WHERE",
+      "ORDER",
+      "GROUP"
+    };
+
     protected SqlCommand m_Command = null;
     protected List<String> _Declarations = new List<string>();
     protected List<String> _Assignments = new List<string>();
@@ -65,8 +74,28 @@ namespace shr.Visualizers.SqlCommandVisualizer
         StringBuilder Translation = new StringBuilder();
         _Declarations.ForEach(decl => Translation.AppendFormat("{0}{1}", decl, Environment.NewLine));
         _Assignments.ForEach(assg => Translation.AppendFormat("{0}{1}", assg, Environment.NewLine));
+        Translation.Append(Environment.NewLine);
+        Translation.Append(PrettifyStatement(m_Command.CommandText));
         return Translation.ToString();
       }
+    }
+
+    protected static String PrettifyStatement(String SqlStatement)
+    {
+      StringBuilder Pretty = new StringBuilder();
+      string seps = @"( )|(\()|(\))";
+      string[] Tokens = Regex.Split(SqlStatement, seps);
+
+      foreach (String Token in Tokens)
+      {
+        if(_BreakBefore.Contains(Token.ToUpper()))
+          Pretty.Append(Environment.NewLine);
+
+        Pretty.Append(Token);
+      }
+
+      return Pretty.ToString();
+
     }
   }
 }
